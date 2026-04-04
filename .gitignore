@@ -1,0 +1,14 @@
+# Ejecutables
+backup
+
+# Archivos generados
+*.txt
+
+# Logs
+logs/
+
+# Archivos grandes
+*.bin
+
+# Sistema
+*.o
