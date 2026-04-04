@@ -5,7 +5,6 @@
 
 #define STD_BUFFER 4096
 
-// Copia usando stdio (fread / fwrite)
 int copy_with_stdio(const char *src, const char *dest) {
     FILE *f_src = fopen(src, "rb");
     if (!f_src) {
@@ -41,30 +40,38 @@ int main(int argc, char *argv[]) {
     }
 
     const char *src = argv[1];
+    const char *dest = argv[2];
 
-    // Archivos de salida diferentes
-    const char *dest_sys = "copy_syscall.txt";
     const char *dest_std = "copy_stdio.txt";
 
     clock_t start, end;
-    double time_sys, time_std;
+    double time_sys = 0;
+    double time_std = 0;
 
-    // ----------- SYSTEM CALL -----------
-    start = clock();
-    sys_smart_copy(src, dest_sys);
-    end = clock();
+    int repetitions = 3;
 
-    time_sys = ((double)(end - start)) / CLOCKS_PER_SEC;
+    // -------- SYSTEM CALL TEST --------
+    for (int i = 0; i < repetitions; i++) {
+        start = clock();
+        sys_smart_copy(src, dest);
+        end = clock();
+        time_sys += ((double)(end - start)) / CLOCKS_PER_SEC;
+    }
 
-    // ----------- STDIO -----------
-    start = clock();
-    copy_with_stdio(src, dest_std);
-    end = clock();
+    time_sys /= repetitions;
 
-    time_std = ((double)(end - start)) / CLOCKS_PER_SEC;
+    // -------- STDIO TEST --------
+    for (int i = 0; i < repetitions; i++) {
+        start = clock();
+        copy_with_stdio(src, dest_std);
+        end = clock();
+        time_std += ((double)(end - start)) / CLOCKS_PER_SEC;
+    }
 
-    // Resultados
-    printf("\nResultados:\n");
+    time_std /= repetitions;
+
+    // -------- RESULTADOS --------
+    printf("\nResultados promedio (%d ejecuciones):\n", repetitions);
     printf("System Call Copy: %f segundos\n", time_sys);
     printf("Stdio Copy:       %f segundos\n", time_std);
 
