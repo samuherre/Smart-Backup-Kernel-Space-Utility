@@ -1,1 +1,7 @@
 # Smart-Backup-Kernel-Space-Utility
+
+
+
+**INTEGRANTES:**
+- SAMUEL HERRERA GALVIS
+- SIMÓN CASTRO VALENCIA
