@@ -8,13 +8,13 @@
 int copy_with_stdio(const char *src, const char *dest) {
     FILE *f_src = fopen(src, "rb");
     if (!f_src) {
-        perror("Error abriendo origen (stdio)");
+        perror(COLOR_RED "Error abriendo origen (stdio)" COLOR_RESET);
         return -1;
     }
 
     FILE *f_dest = fopen(dest, "wb");
     if (!f_dest) {
-        perror("Error creando destino (stdio)");
+        perror(COLOR_RED "Error creando destino (stdio)" COLOR_RESET);
         fclose(f_src);
         return -1;
     }
@@ -35,7 +35,7 @@ int copy_with_stdio(const char *src, const char *dest) {
 int main(int argc, char *argv[]) {
 
     if (argc < 3) {
-        printf("Uso: %s <origen> <destino>\n", argv[0]);
+        printf(COLOR_YELLOW "Uso: %s <origen> <destino>\n" COLOR_RESET, argv[0]);
         return 1;
     }
 
@@ -71,9 +71,9 @@ int main(int argc, char *argv[]) {
     time_std /= repetitions;
 
     // -------- RESULTADOS --------
-    printf("\nResultados promedio (%d ejecuciones):\n", repetitions);
-    printf("System Call Copy: %f segundos\n", time_sys);
-    printf("Stdio Copy:       %f segundos\n", time_std);
+    printf(COLOR_CYAN "\nResultados promedio (%d ejecuciones):\n" COLOR_RESET, repetitions);
+    printf(COLOR_GREEN "System Call Copy: %f segundos\n" COLOR_RESET, time_sys);
+    printf(COLOR_GREEN "Stdio Copy:       %f segundos\n" COLOR_RESET, time_std);
 
     return 0;
 }

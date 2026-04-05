@@ -21,10 +21,10 @@ int sys_smart_copy(const char *src_path, const char *dest_path) {
     // -------- ABRIR ORIGEN --------
     src_fd = open(src_path, O_RDONLY);
     if (src_fd < 0) {
-        fprintf(stderr, "Error abriendo '%s': %s\n", src_path, strerror(errno));
+        fprintf(stderr, COLOR_RED "Error abriendo '%s': %s\n" COLOR_RESET, src_path, strerror(errno));
 
         if (errno == EACCES) {
-            fprintf(stderr, "Permiso denegado\n");
+            fprintf(stderr, COLOR_YELLOW "Permiso denegado\n" COLOR_RESET);
         }
 
         if (log != NULL) {
@@ -38,10 +38,10 @@ int sys_smart_copy(const char *src_path, const char *dest_path) {
     // -------- CREAR DESTINO --------
     dest_fd = open(dest_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (dest_fd < 0) {
-        fprintf(stderr, "Error creando '%s': %s\n", dest_path, strerror(errno));
+        fprintf(stderr, COLOR_RED "Error creando '%s': %s\n" COLOR_RESET, dest_path, strerror(errno));
 
         if (errno == EACCES) {
-            fprintf(stderr, "Permiso denegado\n");
+            fprintf(stderr, COLOR_YELLOW "Permiso denegado\n" COLOR_RESET);
         }
 
         close(src_fd);
@@ -60,10 +60,10 @@ int sys_smart_copy(const char *src_path, const char *dest_path) {
         bytes_written = write(dest_fd, buffer, bytes_read);
 
         if (bytes_written < 0) {
-            fprintf(stderr, "Error escribiendo: %s\n", strerror(errno));
+            fprintf(stderr, COLOR_RED "Error escribiendo: %s\n" COLOR_RESET, strerror(errno));
 
             if (errno == ENOSPC) {
-                fprintf(stderr, "No hay espacio en disco\n");
+                fprintf(stderr, COLOR_YELLOW "No hay espacio en disco\n" COLOR_RESET);
             }
 
             close(src_fd);
@@ -79,7 +79,7 @@ int sys_smart_copy(const char *src_path, const char *dest_path) {
     }
 
     if (bytes_read < 0) {
-        fprintf(stderr, "Error leyendo: %s\n", strerror(errno));
+        fprintf(stderr, COLOR_RED "Error leyendo: %s\n" COLOR_RESET, strerror(errno));
 
         if (log != NULL) {
             fprintf(log, "Error durante lectura\n\n");
