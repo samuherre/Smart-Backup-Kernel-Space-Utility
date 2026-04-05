@@ -19,5 +19,5 @@
 
 // Firma de la función tipo "system call"
 int sys_smart_copy(const char *src_path, const char *dest_path);
-
+int backup_dir(const char *src_dir, const char *dest_dir);
 #endif

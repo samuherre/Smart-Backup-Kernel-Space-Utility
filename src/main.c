@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/stat.h>
 #include "smart_copy.h"
 
 #define STD_BUFFER 4096
@@ -39,9 +40,22 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    const char *src = argv[1];
+    const char *src  = argv[1];
     const char *dest = argv[2];
 
+    // -------- DETECTAR SI ES CARPETA O ARCHIVO --------
+    struct stat src_info;
+    if (stat(src, &src_info) < 0) {
+        fprintf(stderr, COLOR_RED "No se puede acceder a '%s'\n" COLOR_RESET, src);
+        return 1;
+    }
+
+    if (S_ISDIR(src_info.st_mode)) {
+        // -------- MODO CARPETA --------
+        return backup_dir(src, dest);
+    }
+
+    // -------- MODO ARCHIVO (comportamiento original) --------
     const char *dest_std = "copy_stdio.txt";
 
     clock_t start, end;

@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <sys/stat.h>
-
+#include <dirent.h>
 #define BAR_WIDTH 40
 
 static void print_progress(long bytes_copied, long total) {
@@ -135,5 +135,55 @@ int sys_smart_copy(const char *src_path, const char *dest_path) {
         fclose(log);
     }
 
+    return COPY_SUCCESS;
+}
+
+// -------- BACKUP DE CARPETA --------
+int backup_dir(const char *src_dir, const char *dest_dir) {
+    DIR *dir = opendir(src_dir);
+    if (!dir) {
+        fprintf(stderr, COLOR_RED "Error abriendo carpeta '%s': %s\n" COLOR_RESET, src_dir, strerror(errno));
+        return COPY_ERROR;
+    }
+
+    // Crear carpeta destino si no existe
+    if (mkdir(dest_dir, 0755) < 0 && errno != EEXIST) {
+        fprintf(stderr, COLOR_RED "Error creando carpeta '%s': %s\n" COLOR_RESET, dest_dir, strerror(errno));
+        closedir(dir);
+        return COPY_ERROR;
+    }
+
+    printf(COLOR_CYAN "Carpeta: %s -> %s\n" COLOR_RESET, src_dir, dest_dir);
+
+    struct dirent *entry;
+    struct stat entry_info;
+    char src_path[1024];
+    char dest_path[1024];
+
+    while ((entry = readdir(dir)) != NULL) {
+
+        // Saltar . y ..
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
+
+        snprintf(src_path,  sizeof(src_path),  "%s/%s", src_dir,  entry->d_name);
+        snprintf(dest_path, sizeof(dest_path), "%s/%s", dest_dir, entry->d_name);
+
+        if (stat(src_path, &entry_info) < 0) {
+            fprintf(stderr, COLOR_YELLOW "No se pudo leer '%s', saltando...\n" COLOR_RESET, src_path);
+            continue;
+        }
+
+        if (S_ISDIR(entry_info.st_mode)) {
+            // Recursión para subcarpetas
+            backup_dir(src_path, dest_path);
+        } else if (S_ISREG(entry_info.st_mode)) {
+            // Archivo normal
+            printf(COLOR_CYAN "  Archivo: %s\n" COLOR_RESET, entry->d_name);
+            sys_smart_copy(src_path, dest_path);
+        }
+    }
+
+    closedir(dir);
     return COPY_SUCCESS;
 }
