@@ -13,6 +13,7 @@ El objetivo es analizar el rendimiento de ambos métodos y comprender el impacto
 
 ## Estructura del Proyecto
 
+```
 Smart-Backup/
 │
 ├── src/ # Código fuente
@@ -36,7 +37,7 @@ Smart-Backup/
 ├── Makefile
 ├── README.md
 ├── .gitignore
-
+```
 ---
 
 ## Requisitos
@@ -137,10 +138,10 @@ Donde se registran:
 
 ## Estado del Proyecto
 
-✔ Implementación completa
-✔ Comparación de rendimiento
-✔ Manejo de errores
-✔ Logs del sistema
-✔ Estructura profesional
+- Implementación completa
+- Comparación de rendimiento
+- Manejo de errores
+- Logs del sistema
+- Estructura profesional
 
 Proyecto desarrollado para la materia Sistemas Operativos.
