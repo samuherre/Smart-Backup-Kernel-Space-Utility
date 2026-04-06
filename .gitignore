@@ -1,14 +1,18 @@
 # Ejecutables
 backup
+bin/
 
-# Archivos generados
-*.txt
+# Archivos generados (outputs)
+outputs/
 
 # Logs
 logs/
 
-# Archivos grandes
+# Archivos de prueba grandes
 *.bin
 
-# Sistema
+# Archivos temporales de compilación
 *.o
+
+# Sistema
+.DS_Store
