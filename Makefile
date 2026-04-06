@@ -1,8 +1,22 @@
+# Compilador
+CC = gcc
+
+# Archivos fuente
+SRC = src/main.c src/backup_engine.c
+
+# Ejecutable
+OUT = bin/backup
+
+# Compilación
 all:
-	gcc main.c backup_engine.c -o backup
+	$(CC) $(SRC) -o $(OUT)
 
+# Ejecutar ejemplo
 run:
-	./backup archivo.txt copia.txt
+	./bin/backup tests/test_1KB.bin outputs/copia1.txt
 
+# Limpiar archivos generados
 clean:
-	rm -f backup copy_stdio.txt copia.txt backup.log
+	rm -f $(OUT)
+	rm -f outputs/*
+	rm -f logs/*

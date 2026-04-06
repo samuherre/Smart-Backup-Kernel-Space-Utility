@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     }
 
     // -------- MODO ARCHIVO (comportamiento original) --------
-    const char *dest_std = "copy_stdio.txt";
+    const char *dest_std = "outputs/copy_stdio.txt";
 
     clock_t start, end;
     double time_sys = 0;

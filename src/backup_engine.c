@@ -29,7 +29,7 @@ int sys_smart_copy(const char *src_path, const char *dest_path) {
     char buffer[BUFFER_SIZE];
 
     // -------- LOG --------
-    FILE *log = fopen("backup.log", "a");
+    FILE *log = fopen("logs/backup.log", "a");
     if (log != NULL) {
         time_t now = time(NULL);
         fprintf(log, "[%s] Iniciando copia: %s -> %s\n", ctime(&now), src_path, dest_path);

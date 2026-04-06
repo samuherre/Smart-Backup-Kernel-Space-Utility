@@ -17,13 +17,19 @@ Este proyecto implementa un sistema de backup en C que compara dos enfoques:
 ## Compilación
 
 ```bash
-gcc main.c backup_engine.c -o backup
+gcc src/main.c src/backup_engine.c -o bin/backup
 ```
 
 ## Ejecución
 
 ```bash
 ./backup archivo_origen archivo_destino
+```
+
+## Ejemplo Ejecución
+
+```bash
+./bin/backup tests/test_1KB.bin outputs/copia1.txt
 ```
 
 ## Pruebas
